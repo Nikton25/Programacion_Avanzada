@@ -18,8 +18,8 @@ public class Auto extends Vehiculo {
 
     @Override
     public void mostrarDatos(){
-        System.out.println("Vehiculo: " + getTipoVehiculo()+ "/ Marca: " + this.marca + "/ Modelo: " + this.modelo + "/ Patente: " + this.patente);
-        System.out.println("Horas Estimadas: " + this.horasEstimadas + "/ Costo total estimado: $" + calcularTarifa());
+        System.out.println("Vehiculo: " + getTipoVehiculo()+ "| Marca: " + this.marca + "| Modelo: " + this.modelo + "| Patente: " + this.patente);
+        System.out.println("Horas Estimadas: " + this.horasEstimadas + "| Costo total estimado: $" + calcularTarifa());
     }
 
 
