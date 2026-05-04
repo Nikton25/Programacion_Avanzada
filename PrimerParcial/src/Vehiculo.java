@@ -1,13 +1,14 @@
-public abstract class Vehiculo {
+public abstract class Vehiculo implements Calculable {
 
     protected String marca;
     protected String modelo;
     protected String patente;
     protected int valorHora;
-    protected int horasEstadia;
+    protected int horasEstimadas;
     protected Estadia estadia;
     protected int espacio;
     protected String tipoVehiculo;
+
 
     public Vehiculo(String marca, String modelo, String patente, int horasEstadia) {
         this.marca = marca;
@@ -26,7 +27,11 @@ public abstract class Vehiculo {
         return patente;
     }
 
-    public abstract double calcularTarifa(int horas);
+    @Override
+    public double calcularTarifa(int horas) {
+        double calculo = horas * horasEstimadas;
+        return calculo;
+    }
 
     public abstract int getEspacio();
 
