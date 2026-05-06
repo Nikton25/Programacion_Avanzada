@@ -29,12 +29,25 @@ public class Main {
                     System.out.println("2) MOTOCICLETA\n");
                     System.out.println("3) CAMION");
                     int tipoVehiculo = Integer.parseInt(scan.nextLine());
+
                     System.out.println("Ingresa la marca");
                     String marca = scan.nextLine();
+                    if (marca.trim().isEmpty()) {
+                        throw new IllegalArgumentException("ERROR: Debe ingresar la marca del vehículo.");
+                    }
+
                     System.out.println("Ingresa el modelo");
                     String modelo = scan.nextLine();
+                    if (modelo.trim().isEmpty()) {
+                        throw new IllegalArgumentException("ERROR: Debe ingresar el modelo del vehículo.");
+                    }
+
                     System.out.println("Ingresa la patente");
                     String patente = scan.nextLine();
+                    if (patente.trim().isEmpty()) {
+                        throw new IllegalArgumentException("ERROR: Debe ingresar la patente del vehículo.");
+                    }
+
                     System.out.println("Ingrese la cantidad de horas estimadas de estadía:");
                     int horasEstimadas = Integer.parseInt(scan.nextLine());
 
