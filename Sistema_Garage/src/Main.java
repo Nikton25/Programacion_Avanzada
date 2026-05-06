@@ -12,7 +12,7 @@ public class Main {
     while(opcion!=6){
         System.out.println("\n1. Registrar ingreso");
         System.out.println("2. Registrar salida");
-        System.out.println("3. Listar vehiculos");
+        System.out.println("3. Listar vehículos");
         System.out.println("4. Estado del garage");
         System.out.println("5. Reportes");
         System.out.println("6. Salir");
@@ -55,7 +55,7 @@ public class Main {
                             break;
 
                         default:
-                            System.out.println("ERROR: Tipo de vehiculo invalido.");
+                            System.out.println("ERROR: Tipo de vehículo invalido.");
                     }
 
                     //Intentamos ingresar el vehiculo al garage
@@ -77,7 +77,7 @@ public class Main {
 
             case 2:
                 try {
-                    System.out.println("Ingrese la patente del vehiculo");
+                    System.out.println("Ingrese la patente del vehículo");
                     String patente = scan.nextLine();
 
                     Vehiculo vehiculoSalida = gar.registrarSalida(patente);
@@ -94,7 +94,7 @@ public class Main {
 
             case 4:
                 System.out.println("=== ESTADO DEL GARAGE ===\n");
-                System.out.println("CAPACIDAD MAXIMA: " + gar.getCapacidadMax() + " espacios.\n");
+                System.out.println("CAPACIDAD MÁXIMA: " + gar.getCapacidadMax() + " espacios.\n");
                 System.out.println("Espacios libres: " + gar.espacioLibre() + " espacios.\n");
                 System.out.println("Espacios ocupados: " +  gar.espacioOcupado() + " espacios.\n");
                 break;
@@ -107,6 +107,7 @@ public class Main {
                 System.out.println("4) Volver al menú principal");
                 System.out.print("Seleccione una opción: ");
 
+                //Utilizamos un switch anidado para que el usuario decida qué reporte quiere ver
                 try {
                     int opcionReporte = Integer.parseInt(scan.nextLine());
 

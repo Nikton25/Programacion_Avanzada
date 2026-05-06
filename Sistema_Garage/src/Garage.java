@@ -57,7 +57,7 @@ public class Garage {
 
         //Validacion de Garage LLeno
         if (espacioLibre() < vehiculo.getEspacio()){
-            throw new GarageLlenoException("ERROR: No hay suficiente espacio para estacionar este vehiculo.");
+            throw new GarageLlenoException("ERROR: No hay suficiente espacio para estacionar este vehículo.");
         }
 
         estacionados.add(vehiculo);
