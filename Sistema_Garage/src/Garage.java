@@ -25,11 +25,14 @@ public class Garage {
         for (Vehiculo vehiculo : estacionados) {
             ocupado += vehiculo.getEspacio();
         }
+
         return ocupado;
     }
 
     public int espacioLibre(){
-        return capacidadMax - espacioOcupado();
+        int espacioLibre = capacidadMax - espacioOcupado();
+        return espacioLibre;
+
     }
 
     private Vehiculo buscarPorPatente(String patente){

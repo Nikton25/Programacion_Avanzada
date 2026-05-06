@@ -9,7 +9,7 @@ public class Main {
 
     System.out.println("=== SISTEMA DE GARAGE ===");
 
-    while(opcion!=0){
+    while(opcion!=6){
         System.out.println("\n1. Registrar ingreso");
         System.out.println("2. Registrar salida");
         System.out.println("3. Listar vehiculos");
@@ -22,17 +22,87 @@ public class Main {
 
         switch(opcion){
             case 1:
+                //Solicitamos al usuario los datos del vehiculo a ingresar
                 try {
-                    System.out.println("Ingresa el tipo de vehiculo");
-                    String tipoVehiculo = scan.nextLine();
+                    System.out.println("Ingresa el tipo de vehiculo (1, 2 o 3): \n");
+                    System.out.println("1) VEHICULO \n");
+                    System.out.println("2) MOTOCICLETA\n");
+                    System.out.println("3) CAMION");
+                    int tipoVehiculo = Integer.parseInt(scan.nextLine());
                     System.out.println("Ingresa la marca");
                     String marca = scan.nextLine();
                     System.out.println("Ingresa el modelo");
                     String modelo = scan.nextLine();
                     System.out.println("Ingresa la patente");
                     String patente = scan.nextLine();
+                    System.out.println("Ingrese la cantidad de horas estimadas de estadía:");
+                    int horasEstimadas = Integer.parseInt(scan.nextLine());
+
+                    //Instanciamos nuevo vehiculo
+                    Vehiculo nuevoVehiculo = null;
+
+                    switch (tipoVehiculo){
+                        case 1:
+                            nuevoVehiculo = new Auto(marca,modelo,patente,horasEstimadas);
+                            break;
+
+                        case 2:
+                            nuevoVehiculo = new Moto(marca,modelo,patente,horasEstimadas);
+                            break;
+
+                        case 3:
+                            nuevoVehiculo = new Camion(marca,modelo,patente,horasEstimadas);
+                            break;
+
+                        default:
+                            System.out.println("ERROR: Tipo de vehiculo invalido.");
+                    }
+
+                    //Intentamos ingresar el vehiculo al garage
+                    if(nuevoVehiculo != null){
+                        gar.registrarEntrada(nuevoVehiculo);
+                    }
+
+
+                    //Manejamos las excepciones en caso de que arroje un error
                 }
+                catch (GarageLlenoException | HorasInvalidasException | PatenteDuplicadaException e) {
+                    System.err.println(e.getMessage());
+                }
+                catch (NumberFormatException e) {
+                    System.err.println("ERROR: Por Favor ingrese un número válido.");
+                    System.err.println("Recuerde que las horas estimadas de estadía deben ser mayor a 0.");
+                }
+                break;
+
+            case 2:
+                try {
+                    System.out.println("Ingrese la patente del vehiculo");
+                    String patente = scan.nextLine();
+
+                    Vehiculo vehiculoSalida = gar.registrarSalida(patente);
+                    System.out.println("Monto a cobrar: $" + vehiculoSalida.calcularTarifa());
+                }
+                catch (VehiculoNoEncontradoException e) {
+                    System.err.println(e.getMessage());
+                }
+                break;
+
+            case 3:
+                    gar.mostrarVehiculosEstacionados();
+                    break;
+
+            case 4:
+                System.out.println("=== ESTADO DEL GARAGE ===\n");
+                System.out.println("CAPACIDAD MAXIMA: " + gar.getCapacidadMax() + " espacios.\n");
+                System.out.println("Espacios libres: " + gar.espacioLibre() + " espacios.\n");
+                System.out.println("Espacios ocupados: " +  gar.espacioOcupado() + " espacios.\n");
+                break;
+
+            case 5:
+
         }
+
     }
 
 
