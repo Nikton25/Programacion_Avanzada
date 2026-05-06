@@ -100,6 +100,61 @@ public class Main {
                 break;
 
             case 5:
+                System.out.println("\n=== MENÚ DE REPORTES ===");
+                System.out.println("1) Cantidad total de vehículos");
+                System.out.println("2) Cantidad por tipo de vehículo");
+                System.out.println("3) Recaudación total estimada");
+                System.out.println("4) Volver al menú principal");
+                System.out.print("Seleccione una opción: ");
+
+                try {
+                    int opcionReporte = Integer.parseInt(scan.nextLine());
+
+                    switch (opcionReporte) {
+                        case 1:
+                            System.out.println("\n TOTAL DE VEHÍCULOS ESTACIONADOS: " + gar.getEstacionados().size());
+                            break;
+
+                        case 2:
+                            int contadorAutos = 0;
+                            int contadorMotos = 0;
+                            int contadorCamiones = 0;
+
+                            for (Vehiculo v : gar.getEstacionados()) {
+                                if (v instanceof Auto) {
+                                    contadorAutos++;
+                                } else if (v instanceof Moto) {
+                                    contadorMotos++;
+                                } else if (v instanceof Camion) {
+                                    contadorCamiones++;
+                                }
+                            }
+
+                            System.out.println("\n=== CANTIDAD POR TIPO DE VEHICULO ESTACIONADO ===");
+                            System.out.println("- Autos: " + contadorAutos);
+                            System.out.println("- Motos: " + contadorMotos);
+                            System.out.println("- Camiones: " + contadorCamiones);
+                            break;
+
+                        case 3:
+                            double totalRecaudado = 0;
+                            for (Vehiculo v : gar.getEstacionados()) {
+                                totalRecaudado += v.calcularTarifa();
+                            }
+                            System.out.println("\n>> RECAUDACIÓN TOTAL ESTIMADA: $" + totalRecaudado);
+                            break;
+
+                        case 4:
+                            System.out.println("Volviendo al menú principal...");
+                            break;
+
+                        default:
+                            System.err.println("Opción de reporte no válida.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.err.println("ERROR: Debe ingresar un número válido para seleccionar el reporte.");
+                }
+                break;
 
         }
 
