@@ -1,3 +1,5 @@
+package Model;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,33 +57,33 @@ public class Garage {
             throw new PatenteDuplicadaException("ERROR: Ya existe un vehiculo con la patente " +  vehiculo.getPatente() + ".");
         }
 
-        //Validacion de Garage LLeno
+        //Validacion de Model.Garage LLeno
         if (espacioLibre() < vehiculo.getEspacio()){
             throw new GarageLlenoException("ERROR: No hay suficiente espacio para estacionar este vehículo.");
         }
 
         estacionados.add(vehiculo);
-        System.out.println("Vehiculo registrado correctamente.");
+        System.out.println("Model.Vehiculo registrado correctamente.");
 
     }
 
     public Vehiculo registrarSalida(String patente) throws VehiculoNoEncontradoException {
         Vehiculo vehiculoEncontrado = buscarPorPatente(patente);
 
-        //Validacion de Vehiculo no encontrado
+        //Validacion de Model.Vehiculo no encontrado
        if (vehiculoEncontrado==null){
            throw new VehiculoNoEncontradoException("ERROR: No se encontro ningun vehiculo con la patente " + patente + ".");
        }
 
        estacionados.remove(vehiculoEncontrado);
-       System.out.println("Vehiculo retirado del Garage correctamente.");
+       System.out.println("Model.Vehiculo retirado del Model.Garage correctamente.");
        return vehiculoEncontrado;
     }
 
     public void mostrarVehiculosEstacionados(){
 
         if (estacionados.isEmpty()){
-            System.out.println("El Garage esta vacio.");
+            System.out.println("El Model.Garage esta vacio.");
         }
         else {
             System.out.println("\n--- RESUMEN DE VEHICULOS ESTACIONADOS ---\n");

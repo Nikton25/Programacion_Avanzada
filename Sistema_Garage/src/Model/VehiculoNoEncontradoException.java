@@ -1,3 +1,5 @@
+package Model;
+
 public class VehiculoNoEncontradoException extends Exception{
 
     public VehiculoNoEncontradoException(String mensaje){

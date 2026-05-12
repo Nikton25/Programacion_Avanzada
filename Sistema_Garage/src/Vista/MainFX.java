@@ -1,29 +1,148 @@
 package Vista;
 
+import Model.*;
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 public class MainFX extends Application {
 
+    private Garage miGarage = new Garage(50);
+    private Stage ventanaPrincipal;
+
     @Override
     public void start(Stage primaryStage) {
-        // Creamos una etiqueta de texto
-        Label mensaje = new Label("¡Bienvenido al sistema del Garage!");
 
-        // El Layout: un contenedor que centra los elementos
-        StackPane raiz = new StackPane();
-        raiz.getChildren().add(mensaje);
+        this.ventanaPrincipal = primaryStage;
+        mostrarMenuPrincipal();
+    }
 
-        // La Escena: contiene el layout y define el tamaño de la ventana
-        Scene escena = new Scene(raiz, 400, 300);
+    public void mostrarMenuPrincipal() {
+        VBox layoutMenu = new VBox(20);
+        layoutMenu.setPadding(new Insets(50));
+        layoutMenu.setAlignment(Pos.CENTER);
 
-        // Configuramos el Escenario (la ventana)
-        primaryStage.setTitle("Garage Pro - JavaFX");
-        primaryStage.setScene(escena);
-        primaryStage.show();
+        Label titulo = new Label("GESTIÓN DE GARAGE");
+        titulo.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+
+        Button btnIngreso = new Button ("Registrar ingreso");
+        Button btnListado = new Button("Ver Vehículos");
+        Button btnSalir = new Button("Salir");
+
+        // Estilo rápido para los botones
+        btnIngreso.setMinWidth(200);
+        btnListado.setMinWidth(200);
+        btnSalir.setMinWidth(200);
+
+        // Eventos
+        btnIngreso.setOnAction(e -> mostrarFormularioIngreso());
+        btnSalir.setOnAction(e -> ventanaPrincipal.close());
+
+        layoutMenu.getChildren().addAll(titulo, btnIngreso, btnListado, btnSalir);
+
+        Scene escena = new Scene(layoutMenu, 450, 500);
+        ventanaPrincipal.setTitle("Sistema Garage - Menú Principal");
+        ventanaPrincipal.setScene(escena);
+        ventanaPrincipal.show();
+    }
+
+    public void mostrarFormularioIngreso() {
+        GridPane grid = new GridPane();
+        grid.setPadding(new Insets(30));
+        grid.setVgap(15);
+        grid.setHgap(10);
+        grid.setAlignment(Pos.CENTER);
+
+        // Componentes del Formulario
+        Label lblTipo = new Label("Tipo de Vehículo:");
+        ComboBox<String> comboTipo = new ComboBox<>();
+        comboTipo.getItems().addAll("Automovil", "Motocicleta", "Camión");
+        comboTipo.setPromptText("Seleccione...");
+
+        Label lblMarca = new Label("Marca:");
+        TextField txtMarca = new TextField();
+
+        Label lblModelo = new Label("Modelo:");
+        TextField txtModelo = new TextField();
+
+        Label lblPatente = new Label("Patente:");
+        TextField txtPatente = new TextField();
+
+        Label lblHoras = new Label("Horas Estimadas:");
+        TextField txtHoras = new TextField();
+
+        Button btnAceptar = new Button("Registrar");
+        Button btnVolver = new Button("Volver");
+
+        // Posicionamiento en el Grid (Columna, Fila)
+        grid.add(lblTipo, 0, 0);
+        grid.add(comboTipo, 1, 0);
+        grid.add(lblMarca, 0, 1);
+        grid.add(txtMarca, 1, 1);
+        grid.add(lblModelo, 0, 2);
+        grid.add(txtModelo, 1, 2);
+        grid.add(lblPatente, 0, 3);
+        grid.add(txtPatente, 1, 3);
+        grid.add(lblHoras, 0, 4);
+        grid.add(txtHoras, 1, 4);
+        grid.add(btnVolver, 0, 5);
+        grid.add(btnAceptar, 1, 5);
+
+        // Eventos del formulario
+        btnVolver.setOnAction(e -> mostrarMenuPrincipal());
+
+        btnAceptar.setOnAction(e -> {
+            try {
+                // 1. Validaciones de espacios en blanco
+                if (comboTipo.getValue() == null) throw new IllegalArgumentException("Debe seleccionar un tipo de vehiculo.");
+                if (txtMarca.getText().trim().isEmpty()) throw new IllegalArgumentException("Debe ingresar la marca del vehiculo.");
+                if (txtModelo.getText().trim().isEmpty()) throw new IllegalArgumentException("Debe ingresar el modelo del vehiculo.");
+                if (txtPatente.getText().trim().isEmpty()) throw new IllegalArgumentException("Debe ingresar la patente del vehiculo.");
+
+                String marca = txtMarca.getText();
+                String modelo = txtModelo.getText();
+                String patente = txtPatente.getText();
+                int horas = Integer.parseInt(txtHoras.getText());
+
+                // 2. Instanciacion
+                Vehiculo nuevo = null;
+                String seleccion = comboTipo.getValue();
+
+                switch (seleccion) {
+                    case "Automovil" -> nuevo = new Auto(marca, modelo, patente, horas);
+                    case "Motocicleta" -> nuevo = new Moto(marca, modelo, patente, horas);
+                    case "Camión" -> nuevo = new Camion(marca, modelo, patente, horas);
+                }
+
+                // 3. Intento de registro en el modelo
+                miGarage.registrarEntrada(nuevo);
+
+                // 4. Feedback de éxito
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Vehículo registrado correctamente.");
+                mostrarMenuPrincipal();
+
+            } catch (NumberFormatException ex) {
+                mostrarAlerta(Alert.AlertType.ERROR, "Error de Datos", "Las horas deben ser un número válido.");
+            } catch (Exception ex) {
+                // Aquí caen tus excepciones: GarageLleno, PatenteDuplicada, etc.
+                mostrarAlerta(Alert.AlertType.ERROR, "Error", ex.getMessage());
+            }
+        });
+
+        Scene escenaForm = new Scene(grid, 450, 500);
+        ventanaPrincipal.setScene(escenaForm);
+    }
+
+    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
+        Alert alerta = new Alert(tipo);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
     }
 
     public static void main(String[] args) {

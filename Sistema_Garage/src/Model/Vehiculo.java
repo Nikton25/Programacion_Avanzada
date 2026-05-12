@@ -1,3 +1,5 @@
+package Model;
+
 public abstract class Vehiculo implements Calculable, Mostrable {
 
     protected String marca;

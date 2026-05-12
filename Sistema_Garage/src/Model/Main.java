@@ -1,3 +1,5 @@
+package Model;
+
 import java.util.Scanner;
 
 public class Main {
@@ -174,7 +176,7 @@ public class Main {
                 break;
 
             case 6:
-                System.out.println("Cerrando Sistema Garage. Hasta la proxima!");
+                System.out.println("Cerrando Sistema Model.Garage. Hasta la proxima!");
                 break;
 
             default:
